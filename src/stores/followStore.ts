@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx';
+import { Platform, ToastAndroid } from 'react-native';
 import { indexStore, } from '.';
 import { User } from '../models/user';
 import StorageUtil from '../utils/storageUtil';
@@ -41,6 +42,8 @@ export class FollowStore {
             this.userList = this.userList.map((item: User) => {
                 if (item.id === user.id) {
                     item.isFollow = true
+                    this.notifyMessage("You have followed " + item.name);
+
                 }
                 return item
             })
@@ -55,6 +58,8 @@ export class FollowStore {
             this.userList = this.userList.map((item: User) => {
                 if (item.id === user.id) {
                     item.isFollow = false
+                    this.notifyMessage("You have unfollowed " + item.name);
+
                 }
                 return item
             })
@@ -62,6 +67,8 @@ export class FollowStore {
         StorageUtil.setValue(this.key, { followList: this.followList, userList: this.userList })
 
     }
-
+    notifyMessage(msg: string) {
+        ToastAndroid.show(msg, ToastAndroid.SHORT)
+    }
 
 }
