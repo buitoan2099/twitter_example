@@ -1,12 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { User } from "../models/user";
 export default class StorageUtil {
 
     /// set value from storage
     static async setValue(key: string, data: any) {
         try {
-            let value = await AsyncStorage.setItem(key, JSON.stringify(data));
+            let value = await AsyncStorage.setItem(key.toString(), JSON.stringify(data));
             // console.log(value);
-
             return value;
         } catch (error: any) {
             console.log(error.message);
@@ -17,7 +17,7 @@ export default class StorageUtil {
     /// get value from storage
     static async getValue(key: string) {
         try {
-            let data = await AsyncStorage.getItem(key);
+            let data = await AsyncStorage.getItem(key.toString());
             let value = JSON.parse(data as string);
             // console.log(value);
             return value;
@@ -39,7 +39,7 @@ export default class StorageUtil {
 
 
     /// set user from storage
-    static async setUser(data: string) {
+    static async setUser(data: User) {
         try {
             let value = await AsyncStorage.setItem('user', JSON.stringify(data));
             console.log(value);
@@ -55,7 +55,7 @@ export default class StorageUtil {
     static async getUser() {
         try {
             let data = await AsyncStorage.getItem('user');
-            let user = JSON.parse(data as string);
+            let user = JSON.parse(data as string) as User;
             console.log(user);
             return user;
         } catch (error: any) {

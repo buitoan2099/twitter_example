@@ -3,4 +3,5 @@ export const Routes = {
     ITEM_EDIT: "ITEMEDIT",
     SPLASH: "SPLASH",
     LOGIN: "LOGIN",
+    DRAWER: "DRAWER",
 }

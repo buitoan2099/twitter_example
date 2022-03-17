@@ -9,7 +9,8 @@ export class IndexStore {
         this.list = new FollowStore();
         this.user = new LoginStore();
     }
-    newList() {
+    resetFollowStore() {
+        this.list.destroyOverTime();
         this.list = new FollowStore();
     }
 }

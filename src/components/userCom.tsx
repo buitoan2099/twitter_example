@@ -20,26 +20,26 @@ export function UserComp({ item, index }: { item: any, index: number }) {
                 <View style={{ flexDirection: 'row', flex: 1 }}>
                     <View style={{ marginHorizontal: 5, paddingVertical: 10, paddingHorizontal: 5 }}>
 
-                        <Avatar.Image size={50} source={{ uri: item.avatar }} />
+                        <Avatar.Image size={50} source={{ uri: item.avatar ?? "https://ragus.vn/wp-content/uploads/2019/11/dien-vien-nhat-ban-Kanna-Hashimoto.jpg" }} />
                     </View>
                     <View style={{ paddingRight: 5, flex: 1, paddingTop: 5 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ flex: 1, paddingRight: 10 }}>
                                 <Text numberOfLines={1} style={[TextStyles.ContextBold,]}>
-                                    {item.name}
+                                    {item.name ?? ""}
                                 </Text>
                                 <Text numberOfLines={1} style={[TextStyles.ContextGray,]}>
-                                    {item.contact}
+                                    {item.contact ?? ""}
                                 </Text>
                             </View>
                             <TouchableOpacity
                                 activeOpacity={0.8}
                                 style={style.button}
                                 onPress={() => {
-                                    console.log("dddddd"),
-                                        !item.isFollow
-                                            ? indexStore.list.follow(item)
-                                            : indexStore.list.unfollow(item)
+                                    console.log("dddddd");
+                                    // !item.isFollow
+                                    //     ? indexStore.list.follow(item)
+                                    //     : indexStore.list.unfollow(item)
                                 }}
                             >
                                 <Text style={{
@@ -50,7 +50,7 @@ export function UserComp({ item, index }: { item: any, index: number }) {
                             </TouchableOpacity>
                         </View>
                         <Text numberOfLines={2} style={[TextStyles.Context,]}>
-                            {item.description}
+                            {item.description ?? ""}
                         </Text>
                     </View>
                 </View>
