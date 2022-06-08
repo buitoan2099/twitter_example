@@ -1,19 +1,20 @@
 import { useContext, createContext } from "react";
 import { FollowStore } from "./followStore";
 import { LoginStore } from "./loginStore";
+import { UserStore } from "./userStore";
 
-export class IndexStore {
-    list: FollowStore;
-    user: LoginStore;
-    constructor() {
-        this.list = new FollowStore();
-        this.user = new LoginStore();
-    }
-    resetFollowStore() {
-        this.list.destroyOverTime();
-        this.list = new FollowStore();
-    }
-}
 
-export var indexStore = new IndexStore();
+// export class IndexStore {
+//     followStore: FollowStore;
+//     loginStore: LoginStore;
+//     userStore: UserStore;
 
+//     constructor() {
+//         this.followStore = new FollowStore();
+//         this.loginStore = new LoginStore();
+//         this.userStore = new UserStore();
+//     }
+// }
+
+// var store = new IndexStore();
+// export default store;

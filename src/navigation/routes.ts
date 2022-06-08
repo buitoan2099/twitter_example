@@ -4,4 +4,5 @@ export const Routes = {
     SPLASH: "SPLASH",
     LOGIN: "LOGIN",
     DRAWER: "DRAWER",
+    USERS: "USERS",
 }

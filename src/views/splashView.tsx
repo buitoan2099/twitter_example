@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Image, ActivityIndicator, StyleSheet } from "react-native";
 import { IconButton } from "react-native-paper";
 import { Routes } from "../navigation/routes";
-import { indexStore, } from "../stores";
+import store from "../stores"
 import { Colors } from "../values/colors";
 
 const SplashView = ({ navigation }: { navigation: any }) => {
@@ -14,7 +14,7 @@ const SplashView = ({ navigation }: { navigation: any }) => {
             //else send to Home Screen
             // AsyncStorage.getItem('user_id').then((value) =>
 
-            indexStore.user.getInitUser(navigation)
+            // store.userStore.getInitUser(navigation)
 
         }, 200);
     }, []);

@@ -1,9 +1,10 @@
+import axios from 'axios';
 import { makeAutoObservable, runInAction, values } from 'mobx';
 import React from 'react';
 import { Platform, ToastAndroid } from 'react-native';
-import { indexStore } from '.';
-import { User } from '../models/user';
-import { UserRepository } from '../repositories/userRepository';
+// import store from './index';
+import * as repository from '../repositories/index';
+import { User, Customer } from '../models/user/user';
 import StorageUtil from '../utils/storageUtil';
 import { Users } from '../utils/users';
 import Utils from '../utils/utils';
@@ -11,28 +12,29 @@ import Utils from '../utils/utils';
 export class FollowStore {
     followList: User[] = []; //follow list created in toan
     userList: User[] = Users;//user list created in toan
-    followApiList: User[] = [];//follow list from twitter user
+    followApiList: Customer[] = [];//follow list from twitter user
     timer: any = React.createRef(); //timer to set overtime
-    private userRepo = UserRepository.getInstance();
     isCreacte: boolean = true;
+    user: User = {};
     key = "1";
     constructor() {
         makeAutoObservable(this);
     }
 
+    //reset
+    reset() {
+        this.followList = [];
+        this.userList = Users;
+        this.followApiList = [];
+        this.destroyOverTime;
+    }
+
     ///get initvalue from storage or utils and get api follow list by id
-    async getInitValue(key: string) {
-        this.key = key;
-        let value = await StorageUtil.getValue(key)
+    async getInitValue(user: any) {
+        this.user = user;
         await this.getApiFollowList()
         console.log('home')
-        console.log(key)
-        if (value !== null) {
-            runInAction(() => {
-                this.followList = value.followList
-                this.userList = value.userList
-            });
-        }
+
     }
 
     ///get api follow list by id overtime
@@ -51,28 +53,50 @@ export class FollowStore {
         //     this.followApiList = [];
         // });
         // Utils.notifyMessage("update follow list")
-        await this.userRepo.getFollowList(this.key).then(res => {
-            console.log("this.key");
-            console.log(this.key);
 
+        await repository.followRepository.getFollowList(this.user.id!.toString()).then(res => {
             if (res["data"]) {
                 console.log(res["data"]);
                 let oldValue = this.followApiList;
-                let name = indexStore.user.key?.name;
                 runInAction(() => {
                     this.followApiList = res["data"];
                 });
                 if (this.isCreacte) {
                     this.isCreacte = false
                 } else if (oldValue.length < this.followApiList.length) {
-                    Utils.notifyMessage(name + " has followed some users")
+                    Utils.notifyMessage(this.user.name + " has followed some users")
                 } else if (oldValue.length > this.followApiList.length) {
-                    Utils.notifyMessage(name + " has unfollowed some users")
+                    Utils.notifyMessage(this.user.name + " has unfollowed some users")
                 }
             }
         })
             .catch(error => {
             })
+
+
+        // await repository.customersRepo.getCustomersByID().then(res => {
+        //     console.log("customer");
+        //     console.log(res);
+
+        //     if (res) {
+        //         console.log(res);
+        //         let oldValue = this.followApiList;
+        //         let name = store.loginStore.key?.name;
+        //         runInAction(() => {
+        //             this.followApiList = res as unknown as Customer[];
+        //         });
+        //         if (this.isCreacte) {
+        //             this.isCreacte = false
+        //         } else if (oldValue.length < this.followApiList.length) {
+        //             Utils.notifyMessage(name + " has followed some users")
+        //         } else if (oldValue.length > this.followApiList.length) {
+        //             Utils.notifyMessage(name + " has unfollowed some users")
+        //         }
+        //     }
+        // })
+        //     .catch(error => {
+        //         console.log(error);
+        //     })
     }
 
     ///follow other users
@@ -110,3 +134,5 @@ export class FollowStore {
 
 
 }
+
+export default new FollowStore();

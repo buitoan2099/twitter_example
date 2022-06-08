@@ -5,11 +5,10 @@ import { useState } from "react";
 import * as Animatable from 'react-native-animatable';
 import { Colors } from "../values/colors";
 import { TextStyles } from "../styles/textStyles";
-import { indexStore, } from "../stores";
+// import store from "../stores"
 import { Routes } from "../navigation/routes";
+import loginStore from "../stores/loginStore";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 const LoginView = ({ navigation }: { navigation: any }) => {
     const [data, setData] = useState(() => {
         return {
@@ -120,7 +119,7 @@ const LoginView = ({ navigation }: { navigation: any }) => {
                             onPress={() => {
                                 checkEmail();
                                 checkPass();
-                                indexStore.user.login({ navigation: navigation, user: data.email })
+                                loginStore.login({ navigation: navigation, user: data.email })
 
                             }}
                         >
@@ -174,7 +173,6 @@ const LoginView = ({ navigation }: { navigation: any }) => {
 
             </View>
         </View>
-
     );
 }
 const style = StyleSheet.create({

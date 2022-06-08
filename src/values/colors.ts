@@ -3,6 +3,9 @@ export const Colors = {
     COLOR_WHITE: "#F5F8FA",
     COLOR_BLACK: "#14171A",
     COLOR_DARK_GRAY: "#657786",
-    COLOR_LIGHT_GRAY: "#AAB8C2",
+    COLOR_LIGHT_GRAY: "#EFEFEF",
     COLOR_LIGHT: "#E1E8ED",
+    COLOR_RED: "#EE5030",
+    COLOR_GREEN: "#44EE30",
+    COLOR_GRAY: "#D9D9D9",
 }

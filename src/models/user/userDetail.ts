@@ -1,4 +1,4 @@
-export type User = {
+export type UserDetail = {
     id?: number;
     avatar?: string;
     name?: string;
@@ -8,4 +8,3 @@ export type User = {
     description?: string;
     isFollow?: Boolean;
 }
-

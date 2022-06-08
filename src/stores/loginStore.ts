@@ -1,10 +1,12 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { indexStore } from ".";
-import { User } from "../models/user";
+import { User } from "../models/user/user";
 import { Routes } from "../navigation/routes";
 import { UserRepository } from "../repositories/userRepository";
 import StorageUtil from "../utils/storageUtil";
 import Utils from "../utils/utils";
+import { ValueType } from "../enums/valueType";
+import followStore from "./followStore";
+// import store from "./index";
 
 export class LoginStore {
     key?: User;
@@ -13,16 +15,17 @@ export class LoginStore {
     constructor() {
         makeAutoObservable(this);
     }
+
     ///will get initvalue from storage if it has
     async getInitUser(navigation: any,) {
         let value: any;
-        value = await StorageUtil.getUser()
+        value = await StorageUtil.getValue(ValueType.user)
 
         if (value !== null) {
             runInAction(() => {
                 this.key = value
             });
-            await indexStore.list.getInitValue(value["id"])
+            await followStore.getInitValue(value["id"])
             navigation.replace(Routes.HOME,);
         } else {
             navigation.replace(
@@ -60,15 +63,16 @@ export class LoginStore {
             if (resp) {
                 this.key = resp
                 Utils.notifyMessage("Welcome " + resp["name"])
-                await StorageUtil.setUser(resp)
-                await indexStore.list.getInitValue(resp["id"])
+                await StorageUtil.setValue(ValueType.user, resp)
+                // await store.followStore.getInitValue(resp["id"])
                 navigation.replace(Routes.HOME);
             }
         }
     }
-    async logout({ navigation }: { navigation: any, }) {
-        await StorageUtil.removeUser();
-        indexStore.resetFollowStore();
-        navigation.replace(Routes.LOGIN);
-    }
+    // async logout({ navigation }: { navigation: any, }) {
+    //     await StorageUtil.removeValue(ValueType.user);
+    //     // store.followStore.reset();
+    //     navigation.replace(Routes.LOGIN);
+    // }
 }
+export default new LoginStore();

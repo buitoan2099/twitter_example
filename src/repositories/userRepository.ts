@@ -1,11 +1,9 @@
-
-// import ApiResponse from 'models/apiResponse';
-import { User } from '../models/user';
-import { headerGetBearerToken } from '../utils/headerUtil';
+import { User } from '../models/user/user';
+import ApiUtil from '../utils/apiUtil';
 import { ApiRepository } from './apiRepository';
 import React from 'react';
 
-export class UserRepository extends ApiRepository {
+class UserRepository extends ApiRepository {
   private static classInstance?: UserRepository; // Class instance
   static getInstance() {
     if (!this.classInstance) {
@@ -16,14 +14,16 @@ export class UserRepository extends ApiRepository {
 
   /// Get user by username
   getUserByUserName = (userName: string) => {
-    return this.instance.get('/users/by/username/' + userName, headerGetBearerToken())
+    console.log(userName);
+    return this.instance.get('/users/by/username/' + userName, ApiUtil.getHeader())
   }
+
   /// Get user by id
   getUserById = (userId: string) => {
-    return this.instance.get('/users/' + userId, headerGetBearerToken())
-  }
-  /// Get Follow list;
-  getFollowList = (userId: string) => {
-    return this.instance.get('/users/' + userId + "/following", headerGetBearerToken())
+    console.log(userId);
+    return this.instance.get('/users/' + userId, ApiUtil.getHeader())
   }
 }
+const userRepository = UserRepository.getInstance();
+export default userRepository;
+export { UserRepository };
